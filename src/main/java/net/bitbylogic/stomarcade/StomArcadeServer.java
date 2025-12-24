@@ -5,7 +5,7 @@ import net.minestom.server.MinecraftServer;
 
 public class StomArcadeServer {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         String velocitySecret = System.getenv("VELOCITY_SECRET");
 
         if (velocitySecret == null) {
