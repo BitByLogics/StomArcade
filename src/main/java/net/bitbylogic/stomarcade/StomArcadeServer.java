@@ -2,6 +2,7 @@ package net.bitbylogic.stomarcade;
 
 import net.bitbylogic.stomarcade.command.GamemodeCommand;
 import net.bitbylogic.stomarcade.command.PermissionCommand;
+import net.bitbylogic.stomarcade.command.VersionCommand;
 import net.bitbylogic.stomarcade.permission.manager.PermissionManager;
 import net.hollowcube.polar.PolarLoader;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
@@ -34,7 +35,7 @@ public class StomArcadeServer {
 
         PermissionManager permissionManager = new PermissionManager();
 
-        MinecraftServer.getCommandManager().register(new GamemodeCommand(), new PermissionCommand());
+        MinecraftServer.getCommandManager().register(new GamemodeCommand(), new PermissionCommand(), new VersionCommand());
 
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
@@ -73,6 +74,7 @@ public class StomArcadeServer {
         }
 
         minecraftServer.start(serverAddress, serverPort);
+        MinecraftServer.setBrandName("StomArcade (Minestom)");
 
         Scanner scanner = new Scanner(System.in);
 
