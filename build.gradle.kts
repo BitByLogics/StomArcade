@@ -21,6 +21,7 @@ dependencies {
     // Misc
     implementation("it.unimi.dsi:fastutil:8.5.18")
     implementation("dev.hollowcube:polar:1.15.0")
+    implementation("ch.qos.logback:logback-classic:1.5.23")
 }
 
 tasks.test {
