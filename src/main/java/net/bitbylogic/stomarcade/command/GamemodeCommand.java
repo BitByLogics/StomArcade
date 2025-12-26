@@ -51,7 +51,7 @@ public class GamemodeCommand extends PermissionedCommand {
             executeSelf(p, mode);
         }, gamemode);
 
-        addConditionalSyntax((sender, commandString) -> PermissionUtil.has(sender, "stomarcade.gamemode.other"), (sender, context) -> {
+        addConditionalSyntax((sender, _) -> PermissionUtil.has(sender, "stomarcade.gamemode.other"), (sender, context) -> {
             EntityFinder finder = context.get(player);
             GameMode mode = context.get(gamemode);
 
