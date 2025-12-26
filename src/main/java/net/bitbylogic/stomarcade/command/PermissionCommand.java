@@ -1,13 +1,15 @@
 package net.bitbylogic.stomarcade.command;
 
-import net.bitbylogic.stomarcade.StomArcadeServer;
 import net.bitbylogic.stomarcade.permission.command.PermissionedCommand;
 import net.bitbylogic.stomarcade.permission.manager.PermissionManager;
 import net.bitbylogic.stomarcade.util.PermissionUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.command.CommandSender;
-import net.minestom.server.command.builder.arguments.*;
+import net.minestom.server.command.builder.arguments.Argument;
+import net.minestom.server.command.builder.arguments.ArgumentBoolean;
+import net.minestom.server.command.builder.arguments.ArgumentLiteral;
+import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.command.builder.arguments.minecraft.ArgumentEntity;
 import net.minestom.server.command.builder.suggestion.SuggestionEntry;
 import net.minestom.server.entity.Player;
@@ -30,8 +32,8 @@ public class PermissionCommand extends PermissionedCommand {
         ArgumentEntity target = ArgumentType.Entity("target").onlyPlayers(true);
         ArgumentBoolean value = ArgumentType.Boolean("value");
 
-        setDefaultExecutor((sender, context) -> {
-            sender.sendMessage(Component.text("Usage: /permission <check|set|unset> <permission> <target> [true/false]", NamedTextColor.GRAY));
+        setDefaultExecutor((sender, _) -> {
+            sender.sendMessage(Component.text("Usage: /permission <check|set|unset> <target> <permission> [true/false]", NamedTextColor.GRAY));
         });
 
         addSyntax((sender, context) -> {
@@ -70,7 +72,7 @@ public class PermissionCommand extends PermissionedCommand {
             targetPlayer.refreshCommands();
 
             sender.sendMessage(Component.text("Permission " + permissionString + " set to " + valueBoolean + " for " + targetPlayer.getUsername(), NamedTextColor.GREEN));
-        }, set, permission, target, value);
+        }, set, target, permission, value);
 
         addSyntax((sender, context) -> {
             Player targetPlayer = context.get(target).findFirstPlayer(sender);
