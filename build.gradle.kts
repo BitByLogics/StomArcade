@@ -5,8 +5,15 @@ plugins {
 group = "net.bitbylogic"
 version = "1.0-SNAPSHOT"
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -23,6 +30,7 @@ dependencies {
     implementation("dev.hollowcube:polar:1.15.0")
     implementation("ch.qos.logback:logback-classic:1.5.23")
     implementation("net.kyori:adventure-text-minimessage:4.25.0")
+    implementation("net.goldenstack:trove:4.0")
 }
 
 tasks.test {
