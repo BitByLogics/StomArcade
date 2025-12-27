@@ -40,7 +40,7 @@ public class StomArcadeServer {
         PermissionManager permissionManager = new PermissionManager();
         FeatureManager featureManager = new FeatureManager();
 
-        featureManager.enableFeature(ArcadeFeature.BLOCK_DROP);
+        featureManager.enableFeature(ArcadeFeature.BLOCK_DROP, ArcadeFeature.ITEM_PICKUP);
 
         MinecraftServer.getCommandManager().register(new GamemodeCommand(), new PermissionCommand(), new VersionCommand());
 
