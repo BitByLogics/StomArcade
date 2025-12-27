@@ -3,6 +3,8 @@ package net.bitbylogic.stomarcade;
 import net.bitbylogic.stomarcade.command.GamemodeCommand;
 import net.bitbylogic.stomarcade.command.PermissionCommand;
 import net.bitbylogic.stomarcade.command.VersionCommand;
+import net.bitbylogic.stomarcade.feature.ArcadeFeature;
+import net.bitbylogic.stomarcade.feature.manager.FeatureManager;
 import net.bitbylogic.stomarcade.loot.LootTableManager;
 import net.bitbylogic.stomarcade.permission.manager.PermissionManager;
 import net.hollowcube.polar.PolarLoader;
@@ -36,6 +38,9 @@ public class StomArcadeServer {
 
         LootTableManager lootTableManager = new LootTableManager();
         PermissionManager permissionManager = new PermissionManager();
+        FeatureManager featureManager = new FeatureManager();
+
+        featureManager.enableFeature(ArcadeFeature.BLOCK_DROP);
 
         MinecraftServer.getCommandManager().register(new GamemodeCommand(), new PermissionCommand(), new VersionCommand());
 
