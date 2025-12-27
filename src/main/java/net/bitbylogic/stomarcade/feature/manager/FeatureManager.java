@@ -11,8 +11,10 @@ public class FeatureManager {
 
     private final Map<String, Feature> enabledFeatures = new HashMap<>();
 
-    public void enableFeature(@NotNull ArcadeFeature feature) {
-        enableFeature(feature.getFeature());
+    public void enableFeature(@NotNull ArcadeFeature... features) {
+        for (ArcadeFeature feature : features) {
+            enableFeature(feature.getFeature());
+        }
     }
 
     public void enableFeature(@NotNull Feature feature) {
@@ -24,8 +26,10 @@ public class FeatureManager {
         feature.onEnable();
     }
 
-    public void disableFeature(@NotNull ArcadeFeature feature) {
-        disableFeature(feature.getFeature());
+    public void disableFeature(@NotNull ArcadeFeature... features) {
+        for (ArcadeFeature feature : features) {
+            disableFeature(feature.getFeature());
+        }
     }
 
     public void disableFeature(@NotNull Feature feature) {
