@@ -23,7 +23,7 @@ import java.util.Scanner;
 
 public class StomArcadeServer {
 
-    private static final ComponentLogger LOGGER = ComponentLogger.logger("Stom Arcade");
+    public static final ComponentLogger LOGGER = ComponentLogger.logger("Stom Arcade");
 
     static void main(String[] args) {
         String velocitySecret = System.getenv("VELOCITY_SECRET");
