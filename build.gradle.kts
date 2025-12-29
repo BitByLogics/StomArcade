@@ -14,6 +14,7 @@ java {
 repositories {
     mavenCentral()
     mavenLocal()
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
@@ -31,6 +32,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.23")
     implementation("net.kyori:adventure-text-minimessage:4.25.0")
     implementation("net.goldenstack:trove:4.0")
+    implementation("io.prometheus:simpleclient:latest.release")
+    implementation("com.github.BitByLogics:Bits-ORM:1.2.0")
 }
 
 tasks.test {
