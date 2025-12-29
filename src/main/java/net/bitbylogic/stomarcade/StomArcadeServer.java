@@ -1,7 +1,9 @@
 package net.bitbylogic.stomarcade;
 
+import net.bitbylogic.orm.BormAPI;
 import net.bitbylogic.stomarcade.command.GamemodeCommand;
 import net.bitbylogic.stomarcade.command.PermissionCommand;
+import net.bitbylogic.stomarcade.command.TeleportCommand;
 import net.bitbylogic.stomarcade.command.VersionCommand;
 import net.bitbylogic.stomarcade.feature.ArcadeFeature;
 import net.bitbylogic.stomarcade.feature.manager.FeatureManager;
@@ -17,6 +19,7 @@ import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.SharedInstance;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
@@ -34,6 +37,8 @@ public class StomArcadeServer {
 
         MinecraftServer minecraftServer = MinecraftServer.init(new Auth.Velocity(velocitySecret));
 
+        BormAPI bormAPI = loadBorm();
+
         LootTableManager lootTableManager = new LootTableManager();
         PermissionManager permissionManager = new PermissionManager();
         FeatureManager featureManager = new FeatureManager();
@@ -42,7 +47,10 @@ public class StomArcadeServer {
                 ArcadeFeature.BLOCK_DROP, ArcadeFeature.ITEM_PICKUP, ArcadeFeature.ITEM_DROP
         );
 
-        MinecraftServer.getCommandManager().register(new GamemodeCommand(), new PermissionCommand(), new VersionCommand());
+        MinecraftServer.getCommandManager().register(
+                new GamemodeCommand(), new PermissionCommand(), new VersionCommand(),
+                new TeleportCommand()
+        );
 
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
@@ -90,6 +98,20 @@ public class StomArcadeServer {
 
             MinecraftServer.getCommandManager().execute(new ConsoleSender(), command);
         }
+    }
+
+    private static BormAPI loadBorm() {
+        String host = System.getenv("DB_HOST");
+        String database = System.getenv("DB_DATABASE");
+        String port = System.getenv("DB_PORT");
+        String username = System.getenv("DB_USERNAME");
+        String password = System.getenv("DB_PASSWORD");
+
+        if (host == null || database == null || username == null || password == null) {
+            return new BormAPI(new File("db.sqlite"));
+        }
+
+        return new BormAPI(host, database, port, username, password);
     }
 
 }

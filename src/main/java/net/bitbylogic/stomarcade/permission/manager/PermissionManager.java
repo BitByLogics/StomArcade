@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PermissionManager {
 
-    private static final Set<String> registeredPermissions = ConcurrentHashMap.newKeySet();
+    private static final Set<String> REGISTERED_PERMISSIONS = ConcurrentHashMap.newKeySet();
 
     private final EventNode<Event> node = EventNode.all("permission");
 
@@ -40,15 +40,15 @@ public class PermissionManager {
     }
 
     public static boolean registerPermission(@NotNull String permission) {
-        return registeredPermissions.add(permission);
+        return REGISTERED_PERMISSIONS.add(permission);
     }
 
     public static boolean unregisterPermission(@NotNull String permission) {
-        return registeredPermissions.remove(permission);
+        return REGISTERED_PERMISSIONS.remove(permission);
     }
 
     public static Set<String> registeredPermissions() {
-        return Set.copyOf(registeredPermissions);
+        return Set.copyOf(REGISTERED_PERMISSIONS);
     }
 
     public EventNode<Event> node() {
