@@ -32,8 +32,6 @@ public class StomArcadeServer {
             throw new RuntimeException("Velocity secret not set");
         }
 
-        MinecraftServer.setCompressionThreshold(0);
-
         MinecraftServer minecraftServer = MinecraftServer.init(new Auth.Velocity(velocitySecret));
 
         LootTableManager lootTableManager = new LootTableManager();
