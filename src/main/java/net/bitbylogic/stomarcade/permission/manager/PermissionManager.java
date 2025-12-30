@@ -47,7 +47,7 @@ public class PermissionManager {
         return REGISTERED_PERMISSIONS.remove(permission);
     }
 
-    public static Set<String> registeredPermissions() {
+    public Set<String> registeredPermissions() {
         return Set.copyOf(REGISTERED_PERMISSIONS);
     }
 
