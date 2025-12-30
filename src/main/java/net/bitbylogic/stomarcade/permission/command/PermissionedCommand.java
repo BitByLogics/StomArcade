@@ -1,5 +1,6 @@
 package net.bitbylogic.stomarcade.permission.command;
 
+import net.bitbylogic.stomarcade.StomArcadeServer;
 import net.bitbylogic.stomarcade.permission.manager.PermissionManager;
 import net.bitbylogic.stomarcade.util.PermissionUtil;
 import net.minestom.server.command.CommandSender;
@@ -27,11 +28,12 @@ public class PermissionedCommand extends Command {
 
     public void setPermission(@NotNull String permission) {
         if (this.permission != null) {
-            PermissionManager.unregisterPermission(this.permission);
+            StomArcadeServer.permissions().unregisterPermission(this.permission);
         }
 
         this.permission = permission;
-        PermissionManager.registerPermission(permission);
+
+        StomArcadeServer.permissions().registerPermission(permission);
     }
 
 }

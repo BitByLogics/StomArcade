@@ -39,11 +39,11 @@ public class PermissionManager {
         PermissionUtil.set(player, "stomarcade.permission", true);
     }
 
-    public static boolean registerPermission(@NotNull String permission) {
+    public boolean registerPermission(@NotNull String permission) {
         return REGISTERED_PERMISSIONS.add(permission);
     }
 
-    public static boolean unregisterPermission(@NotNull String permission) {
+    public boolean unregisterPermission(@NotNull String permission) {
         return REGISTERED_PERMISSIONS.remove(permission);
     }
 
