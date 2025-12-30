@@ -2,7 +2,7 @@ package net.bitbylogic.stomarcade;
 
 import net.bitbylogic.orm.BormAPI;
 import net.bitbylogic.stomarcade.command.*;
-import net.bitbylogic.stomarcade.feature.ArcadeFeature;
+import net.bitbylogic.stomarcade.feature.ServerFeature;
 import net.bitbylogic.stomarcade.feature.manager.FeatureManager;
 import net.bitbylogic.stomarcade.loot.LootTableManager;
 import net.bitbylogic.stomarcade.message.command.MessagesCommand;
@@ -58,10 +58,10 @@ public final class StomArcadeServer {
         messageManager.registerGroup(new BrandingMessages());
 
         featureManager.enableFeature(
-                ArcadeFeature.BLOCK_DROP,
-                ArcadeFeature.ITEM_PICKUP,
-                ArcadeFeature.ITEM_DROP,
-                ArcadeFeature.TABLIST
+                ServerFeature.BLOCK_DROP,
+                ServerFeature.ITEM_PICKUP,
+                ServerFeature.ITEM_DROP,
+                ServerFeature.TABLIST
         );
 
         MinecraftServer.getCommandManager().register(

@@ -6,7 +6,7 @@ import net.bitbylogic.stomarcade.feature.impl.ItemPickupFeature;
 import net.bitbylogic.stomarcade.feature.impl.tablist.TablistFeature;
 import org.jetbrains.annotations.NotNull;
 
-public enum ArcadeFeature {
+public enum ServerFeature {
 
     BLOCK_DROP(new BlockDropFeature()),
     ITEM_PICKUP(new ItemPickupFeature()),
@@ -15,7 +15,7 @@ public enum ArcadeFeature {
 
     final Feature feature;
 
-    ArcadeFeature(@NotNull Feature feature) {
+    ServerFeature(@NotNull Feature feature) {
         this.feature = feature;
     }
 

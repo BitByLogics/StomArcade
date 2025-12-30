@@ -1,6 +1,6 @@
 package net.bitbylogic.stomarcade.feature.manager;
 
-import net.bitbylogic.stomarcade.feature.ArcadeFeature;
+import net.bitbylogic.stomarcade.feature.ServerFeature;
 import net.bitbylogic.stomarcade.feature.EventFeature;
 import net.bitbylogic.stomarcade.feature.Feature;
 import net.minestom.server.MinecraftServer;
@@ -13,8 +13,8 @@ public class FeatureManager {
 
     private final Map<String, Feature> enabledFeatures = new HashMap<>();
 
-    public void enableFeature(@NotNull ArcadeFeature... features) {
-        for (ArcadeFeature feature : features) {
+    public void enableFeature(@NotNull ServerFeature... features) {
+        for (ServerFeature feature : features) {
             enableFeature(feature.getFeature());
         }
     }
@@ -33,8 +33,8 @@ public class FeatureManager {
         feature.onEnable();
     }
 
-    public void disableFeature(@NotNull ArcadeFeature... features) {
-        for (ArcadeFeature feature : features) {
+    public void disableFeature(@NotNull ServerFeature... features) {
+        for (ServerFeature feature : features) {
             disableFeature(feature.getFeature());
         }
     }
