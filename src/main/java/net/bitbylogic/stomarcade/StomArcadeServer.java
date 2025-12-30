@@ -5,6 +5,8 @@ import net.bitbylogic.stomarcade.command.*;
 import net.bitbylogic.stomarcade.feature.ArcadeFeature;
 import net.bitbylogic.stomarcade.feature.manager.FeatureManager;
 import net.bitbylogic.stomarcade.loot.LootTableManager;
+import net.bitbylogic.stomarcade.message.manager.MessageManager;
+import net.bitbylogic.stomarcade.message.messages.BrandingMessages;
 import net.bitbylogic.stomarcade.permission.manager.PermissionManager;
 import net.bitbylogic.stomarcade.util.PermissionUtil;
 import net.hollowcube.polar.PolarLoader;
@@ -29,6 +31,7 @@ public final class StomArcadeServer {
     public static final ComponentLogger LOGGER = ComponentLogger.logger("Stom Arcade");
 
     private static LootTableManager lootTableManager;
+    private static MessageManager messageManager;
     private static PermissionManager permissionManager;
     private static FeatureManager featureManager;
     private static BormAPI bormAPI;
@@ -46,8 +49,11 @@ public final class StomArcadeServer {
 
         bormAPI = loadBORM();
         lootTableManager = new LootTableManager();
+        messageManager = new MessageManager();
         permissionManager = new PermissionManager();
         featureManager = new FeatureManager();
+
+        messageManager.registerGroup(new BrandingMessages());
 
         featureManager.enableFeature(
                 ArcadeFeature.BLOCK_DROP,
@@ -121,6 +127,7 @@ public final class StomArcadeServer {
     }
 
     public static LootTableManager loot() { return lootTableManager; }
+    public static MessageManager messages() { return messageManager; }
     public static PermissionManager permissions() { return permissionManager; }
     public static FeatureManager features() { return featureManager; }
     public static BormAPI borm() { return bormAPI; }
