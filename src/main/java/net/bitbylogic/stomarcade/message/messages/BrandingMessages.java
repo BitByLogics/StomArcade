@@ -54,6 +54,7 @@ public class BrandingMessages extends MessageGroup {
         SERVER_NAME = register("Server-Name", "ꜱᴛᴏᴍ ᴀʀᴄᴀᴅᴇ");
         SERVER_BRANDING = register("Server-Branding", "Stom Arcade (Minestom)");
         VERSION_INFO = register("Version-Info", List.of(
+                "",
                 "<primary>Stom Arcade <separator>• <highlight>Minestom",
                 "",
                 " <secondary>Stom Arcade is running the latest version of " +
