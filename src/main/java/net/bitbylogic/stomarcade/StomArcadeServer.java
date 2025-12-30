@@ -12,6 +12,7 @@ import net.bitbylogic.stomarcade.message.messages.BrandingMessages;
 import net.bitbylogic.stomarcade.permission.manager.PermissionManager;
 import net.bitbylogic.stomarcade.util.PermissionUtil;
 import net.bitbylogic.stomarcade.util.message.MessageUtil;
+import net.bitbylogic.utils.EnumUtil;
 import net.hollowcube.polar.PolarLoader;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.minestom.server.Auth;
@@ -60,6 +61,23 @@ public final class StomArcadeServer {
 
         MinestomPvP.init();
 
+        String features = System.getenv("FEATURES");
+
+        if(features != null && !features.isBlank()) {
+            String[] featureNames = features.split(",");
+            LOGGER.info("Enabling features: {}", features);
+
+            for (String featureName : featureNames) {
+                ServerFeature feature = EnumUtil.getValue(ServerFeature.class, featureName, null);
+
+                if (feature == null) {
+                    continue;
+                }
+
+                featureManager.enableFeature(feature);
+            }
+        }
+
         featureManager.enableFeature(
                 ServerFeature.BLOCK_DROP,
                 ServerFeature.ITEM_PICKUP,
@@ -67,7 +85,6 @@ public final class StomArcadeServer {
                 ServerFeature.TABLIST,
                 ServerFeature.CHAT,
                 ServerFeature.SERVER_LIST,
-                ServerFeature.PICK_BLOCK,
                 ServerFeature.MODERN_VANILLA
         );
 
