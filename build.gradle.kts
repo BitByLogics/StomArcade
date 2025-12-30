@@ -35,7 +35,7 @@ dependencies {
     implementation("net.goldenstack:trove:4.0")
     implementation("io.prometheus:simpleclient:latest.release")
     implementation("com.github.BitByLogics:Bits-ORM:1.2.0")
-    implementation("com.github.BitByLogics.Bits-Utils:bits-utils:2.1.1")
+    implementation("com.github.BitByLogics.Bits-Utils:bits-utils-common:2.1.1")
 }
 
 tasks.test {
