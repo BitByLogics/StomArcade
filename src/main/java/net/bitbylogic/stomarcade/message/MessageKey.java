@@ -68,8 +68,22 @@ public class MessageKey {
         return MessageUtil.deserialize(values.get(Locale.ENGLISH).getFirst(), modifiers);
     }
 
+    public List<Component> getAll(TagResolver.Single... modifiers) {
+        List<Component> components = new ArrayList<>();
+
+        for (String string : values.get(Locale.ENGLISH)) {
+            components.add(MessageUtil.deserialize(string, modifiers));
+        }
+
+        return components;
+    }
+
     public String getPlain() {
         return values.get(Locale.ENGLISH).getFirst();
+    }
+
+    public List<String> getPlainValues() {
+        return values.get(Locale.ENGLISH);
     }
 
     public void send(@NotNull Context context, TagResolver.Single... modifiers) {
