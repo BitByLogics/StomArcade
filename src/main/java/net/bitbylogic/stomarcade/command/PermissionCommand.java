@@ -1,5 +1,6 @@
 package net.bitbylogic.stomarcade.command;
 
+import net.bitbylogic.stomarcade.StomArcadeServer;
 import net.bitbylogic.stomarcade.permission.command.PermissionedCommand;
 import net.bitbylogic.stomarcade.permission.manager.PermissionManager;
 import net.bitbylogic.stomarcade.util.PermissionUtil;
@@ -27,7 +28,7 @@ public class PermissionCommand extends PermissionedCommand {
         ArgumentLiteral unset = ArgumentType.Literal("unset");
 
         Argument<String> permission = ArgumentType.String("permission").setSuggestionCallback((sender, context, suggestion) ->
-                PermissionManager.registeredPermissions().forEach(s -> suggestion.addEntry(new SuggestionEntry(s))));
+                StomArcadeServer.permissions().registeredPermissions().forEach(s -> suggestion.addEntry(new SuggestionEntry(s))));
 
         ArgumentEntity target = ArgumentType.Entity("target").onlyPlayers(true);
         ArgumentBoolean value = ArgumentType.Boolean("value");
