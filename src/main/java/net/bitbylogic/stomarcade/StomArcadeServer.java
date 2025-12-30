@@ -100,10 +100,7 @@ public final class StomArcadeServer {
                 .addChild(permissionManager.node()).addListener(PlayerLoadedEvent.class, event -> {
                     Player player = event.getPlayer();
 
-                    PermissionUtil.set(player, "stomarcade.permission", true);
-                    PermissionUtil.set(player, "stomarcade.gamemode", true);
-                    PermissionUtil.set(player, "stomarcade.teleport", true);
-                    PermissionUtil.set(player, "stomarcade.messagetest", true);
+                    permissionManager.registeredPermissions().forEach(permission -> PermissionUtil.set(player, permission, true));
 
                     player.refreshCommands();
                 });
