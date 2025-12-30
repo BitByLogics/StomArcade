@@ -62,7 +62,8 @@ public final class StomArcadeServer {
                 ServerFeature.ITEM_PICKUP,
                 ServerFeature.ITEM_DROP,
                 ServerFeature.TABLIST,
-                ServerFeature.CHAT
+                ServerFeature.CHAT,
+                ServerFeature.SERVER_LIST
         );
 
         MinecraftServer.getCommandManager().register(
