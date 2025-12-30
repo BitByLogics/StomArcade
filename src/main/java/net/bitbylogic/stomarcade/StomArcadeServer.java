@@ -5,6 +5,7 @@ import net.bitbylogic.stomarcade.command.*;
 import net.bitbylogic.stomarcade.feature.ArcadeFeature;
 import net.bitbylogic.stomarcade.feature.manager.FeatureManager;
 import net.bitbylogic.stomarcade.loot.LootTableManager;
+import net.bitbylogic.stomarcade.message.command.MessagesCommand;
 import net.bitbylogic.stomarcade.message.manager.MessageManager;
 import net.bitbylogic.stomarcade.message.messages.BrandingMessages;
 import net.bitbylogic.stomarcade.permission.manager.PermissionManager;
@@ -66,7 +67,8 @@ public final class StomArcadeServer {
                 new PermissionCommand(),
                 new VersionCommand(),
                 new TeleportCommand(),
-                new MessageTestCommand()
+                new MessageTestCommand(),
+                new MessagesCommand()
         );
 
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
