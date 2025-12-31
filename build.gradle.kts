@@ -1,5 +1,8 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("groovy")
+    id("com.gradleup.shadow") version "9.3.0"
 }
 
 group = "net.bitbylogic"
@@ -49,4 +52,24 @@ tasks.test {
 
 tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("-parameters")
+}
+
+
+tasks.withType<ShadowJar> {
+    archiveBaseName.set("StomArcade")
+    archiveClassifier.set("")
+
+    manifest {
+        attributes(
+            "Main-Class" to "net.bitbylogic.stomarcade.StomArcadeServer"
+        )
+    }
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to "net.bitbylogic.stomarcade.StomArcadeServer"
+        )
+    }
 }
