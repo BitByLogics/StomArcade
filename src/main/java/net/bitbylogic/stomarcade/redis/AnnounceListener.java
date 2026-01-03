@@ -12,6 +12,8 @@ public class AnnounceListener extends RedisMessageListener {
 
     public AnnounceListener() {
         super("announce");
+
+        setSelfActivation(true);
     }
 
     @Override

@@ -12,10 +12,13 @@ public class StaffMessageListener extends RedisMessageListener {
 
     public StaffMessageListener() {
         super("staff_message");
+
+        setSelfActivation(true);
     }
 
     @Override
     public void onReceive(ListenerComponent component) {
+        String playerName = component.getData("playerName", String.class);
         String message = component.getData("message", String.class);
 
         for (Player onlinePlayer : MinecraftServer.getConnectionManager().getOnlinePlayers()) {
@@ -23,7 +26,7 @@ public class StaffMessageListener extends RedisMessageListener {
                 continue;
             }
 
-            ServerMessages.STAFF_CHAT_FORMAT.send(onlinePlayer, Placeholder.parsed("player", onlinePlayer.getUsername()), Placeholder.parsed("message", message));
+            ServerMessages.STAFF_CHAT_FORMAT.send(onlinePlayer, Placeholder.parsed("player", playerName), Placeholder.parsed("message", message));
         }
     }
 }

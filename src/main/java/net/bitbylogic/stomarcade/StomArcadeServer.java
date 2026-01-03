@@ -115,7 +115,9 @@ public final class StomArcadeServer {
                 new TeleportCommand(),
                 new MessageTestCommand(),
                 new MessagesCommand(),
-                new DispatchCommand()
+                new DispatchCommand(),
+                new AnnounceCommand(),
+                new StaffChatCommand()
         );
 
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
