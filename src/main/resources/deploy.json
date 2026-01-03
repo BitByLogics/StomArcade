@@ -1,0 +1,17 @@
+{
+  "ids": [
+    "stomarcade_lobby"
+  ],
+  "cache": 1,
+  "portRangeMin": -1,
+  "portRangeMax": -1,
+  "envVars": [
+    "VELOCITY_SECRET=wCOEM5AfIKdw",
+    "WORLD_NAME=dice",
+	"FEATURES=PICK_BLOCK",
+	"SERVER_PORT=25565"
+  ],
+  "serverType": "LOBBY",
+  "includedPlugins": [],
+  "world": "dice.polar"
+}

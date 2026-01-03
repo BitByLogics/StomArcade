@@ -7,10 +7,13 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class ServerUtil {
 
     public static final Random RANDOM = new Random();
+
+    public static final UUID FALLBACK_UUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
 
     private static final int MOTD_CENTER_PX = 125;
 

@@ -42,6 +42,7 @@ public class LootTableManager {
 
     private void extractLootTables() throws IOException, URISyntaxException {
         String resourceFolder = "/loot_tables";
+        String folderPrefix = resourceFolder.substring(1);
         URL resource = getClass().getResource(resourceFolder);
 
         if (resource == null) {
@@ -58,11 +59,21 @@ public class LootTableManager {
                 while (entries.hasMoreElements()) {
                     JarEntry entry = entries.nextElement();
 
-                    if (!entry.getName().startsWith(resourceFolder.substring(1))) {
+                    if (!entry.getName().startsWith(folderPrefix)) {
                         continue;
                     }
 
-                    Path destination = LOOT_TABLE_FOLDER.toPath().resolve(entry.getName().substring(resourceFolder.length() + 1));
+                    if (entry.getName().equals(folderPrefix) || entry.getName().equals(folderPrefix + "/")) {
+                        continue;
+                    }
+
+                    String relativePath = entry.getName().substring(folderPrefix.length());
+
+                    if (relativePath.startsWith("/")) {
+                        relativePath = relativePath.substring(1);
+                    }
+
+                    Path destination = LOOT_TABLE_FOLDER.toPath().resolve(relativePath);
 
                     if (entry.isDirectory()) {
                         Files.createDirectories(destination);

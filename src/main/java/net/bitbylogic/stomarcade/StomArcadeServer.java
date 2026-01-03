@@ -1,7 +1,10 @@
 package net.bitbylogic.stomarcade;
 
 import io.github.togar2.pvp.MinestomPvP;
+import net.bitbylogic.kardia.server.KardiaServer;
 import net.bitbylogic.orm.BormAPI;
+import net.bitbylogic.rps.RedisManager;
+import net.bitbylogic.rps.client.RedisClient;
 import net.bitbylogic.stomarcade.command.*;
 import net.bitbylogic.stomarcade.feature.ServerFeature;
 import net.bitbylogic.stomarcade.feature.manager.FeatureManager;
@@ -9,7 +12,13 @@ import net.bitbylogic.stomarcade.loot.LootTableManager;
 import net.bitbylogic.stomarcade.message.command.MessagesCommand;
 import net.bitbylogic.stomarcade.message.manager.MessageManager;
 import net.bitbylogic.stomarcade.message.messages.BrandingMessages;
+import net.bitbylogic.stomarcade.message.messages.ServerMessages;
 import net.bitbylogic.stomarcade.permission.manager.PermissionManager;
+import net.bitbylogic.stomarcade.redis.AnnounceListener;
+import net.bitbylogic.stomarcade.redis.CommandListener;
+import net.bitbylogic.stomarcade.redis.PlayerMessageListener;
+import net.bitbylogic.stomarcade.redis.StaffMessageListener;
+import net.bitbylogic.stomarcade.server.ServerManager;
 import net.bitbylogic.stomarcade.util.PermissionUtil;
 import net.bitbylogic.stomarcade.util.message.MessageUtil;
 import net.bitbylogic.utils.EnumUtil;
@@ -24,6 +33,8 @@ import net.minestom.server.event.player.PlayerLoadedEvent;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.SharedInstance;
+import org.redisson.client.codec.StringCodec;
+import org.redisson.config.Config;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +51,11 @@ public final class StomArcadeServer {
     private static FeatureManager featureManager;
     private static BormAPI bormAPI;
 
+    private static RedisManager redisManager;
+    private static RedisClient redisClient;
+
+    private static ServerManager serverManager;
+
     private static SharedInstance sharedInstance;
 
     static void main(String[] args) {
@@ -51,13 +67,17 @@ public final class StomArcadeServer {
 
         MinecraftServer minecraftServer = MinecraftServer.init(new Auth.Velocity(velocitySecret));
 
+        loadRedis();
+
         bormAPI = loadBORM();
         lootTableManager = new LootTableManager();
         messageManager = new MessageManager();
         permissionManager = new PermissionManager();
         featureManager = new FeatureManager();
 
-        messageManager.registerGroup(new BrandingMessages());
+        serverManager = new ServerManager();
+
+        messageManager.registerGroup(new BrandingMessages(), new ServerMessages());
 
         MinestomPvP.init();
 
@@ -94,7 +114,8 @@ public final class StomArcadeServer {
                 new VersionCommand(),
                 new TeleportCommand(),
                 new MessageTestCommand(),
-                new MessagesCommand()
+                new MessagesCommand(),
+                new DispatchCommand()
         );
 
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
@@ -141,7 +162,10 @@ public final class StomArcadeServer {
         minecraftServer.start(serverAddress, serverPort);
         MinecraftServer.setBrandName(MessageUtil.serialize(BrandingMessages.SERVER_BRANDING.get()));
 
+        serverManager.start();
+
         LOGGER.info("Server started on {}:{}", serverAddress, serverPort);
+        serverManager.getServerSettings().setJoinState(KardiaServer.JoinState.JOINABLE);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -156,14 +180,16 @@ public final class StomArcadeServer {
     public static PermissionManager permissions() { return permissionManager; }
     public static FeatureManager features() { return featureManager; }
     public static BormAPI borm() { return bormAPI; }
-    public static SharedInstance getSharedInstance() { return sharedInstance; }
+    public static RedisManager redis() { return redisManager; }
+    public static RedisClient redisClient() { return redisClient; }
+    public static SharedInstance sharedInstance() { return sharedInstance; }
 
     private static BormAPI loadBORM() {
-        String host = System.getenv("DB_HOST");
-        String database = System.getenv("DB_DATABASE");
-        String port = System.getenv("DB_PORT");
-        String username = System.getenv("DB_USERNAME");
-        String password = System.getenv("DB_PASSWORD");
+        String host = System.getenv("SQL_HOST");
+        String database = System.getenv("SQL_DATABASE");
+        String port = System.getenv("SQL_PORT");
+        String username = System.getenv("SQL_USERNAME");
+        String password = System.getenv("SQL_PASSWORD");
 
         if (host == null || database == null || username == null || password == null) {
             LOGGER.info("DB information not provided, falling back to SQLite. (db.sqlite)");
@@ -172,6 +198,26 @@ public final class StomArcadeServer {
 
         LOGGER.info("Connecting to remote database {}@{}:{}", username, host, port);
         return new BormAPI(host, database, port, username, password);
+    }
+
+    private static void loadRedis() {
+        String host = System.getenv("REDIS_HOST");
+        int port = 6379;
+
+        try {
+            port = Integer.parseInt(System.getenv("REDIS_PORT"));
+        } catch (NumberFormatException ignored) {}
+
+        String password = System.getenv("REDIS_PASSWORD");
+        String sourceId = System.getenv("REDIS_SOURCE_ID");
+
+        redisManager = new RedisManager(host, port, password, sourceId, new Config().setCodec(StringCodec.INSTANCE));
+        redisClient = redisManager.registerClient(sourceId);
+
+        redisClient.registerListener(new AnnounceListener());
+        redisClient.registerListener(new CommandListener());
+        redisClient.registerListener(new PlayerMessageListener());
+        redisClient.registerListener(new StaffMessageListener());
     }
 
 }
