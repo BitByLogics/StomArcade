@@ -2,6 +2,7 @@ package net.bitbylogic.stomarcade.util.message;
 
 import net.bitbylogic.stomarcade.message.messages.BrandingMessages;
 import net.bitbylogic.stomarcade.message.tag.BrandingTags;
+import net.bitbylogic.stomarcade.server.message.ServerTags;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -24,6 +25,7 @@ public class MessageUtil {
                     TagResolver.builder()
                             .resolver(StandardTags.defaults())
                             .resolvers(BrandingTags.ALL)
+                            .resolvers(ServerTags.ALL)
                             .resolvers(SMALL_CAPS)
                             .build()
             ).build();
