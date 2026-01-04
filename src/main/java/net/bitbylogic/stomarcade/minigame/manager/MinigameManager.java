@@ -2,8 +2,10 @@ package net.bitbylogic.stomarcade.minigame.manager;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.bitbylogic.rps.listener.ListenerComponent;
 import net.bitbylogic.stomarcade.StomArcadeServer;
 import net.bitbylogic.stomarcade.minigame.Minigame;
+import net.bitbylogic.stomarcade.server.ServerEnvironment;
 import net.minestom.server.MinecraftServer;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +16,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -141,6 +144,14 @@ public class MinigameManager {
 
         activeMinigame.onEnd();
         activeMinigame.stateManager().stop();
+
+        if (new ArrayList<>(minigames.values()).indexOf(activeMinigame) == minigames.size() - 1) {
+            String kardiaId = StomArcadeServer.serverManager().environment().getEnv(ServerEnvironment.EnvVariable.KARDIA_ID);
+
+            if (!kardiaId.equalsIgnoreCase("none")) {
+                StomArcadeServer.redisClient().sendListenerMessage(new ListenerComponent("server_shutdown").addData("serverId", kardiaId));
+            }
+        }
 
         this.activeMinigame = null;
     }
