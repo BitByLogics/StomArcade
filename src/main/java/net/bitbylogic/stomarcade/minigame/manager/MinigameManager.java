@@ -78,12 +78,7 @@ public class MinigameManager {
             ).getAsJsonObject();
         }
 
-        String id = descriptor.get("id").getAsString();
         String mainClass = descriptor.get("main").getAsString();
-
-        if (minigames.containsKey(id)) {
-            throw new IllegalStateException("Duplicate minigame id: " + id);
-        }
 
         URLClassLoader classLoader = new URLClassLoader(
                 new URL[]{jarFile.toURI().toURL()},
