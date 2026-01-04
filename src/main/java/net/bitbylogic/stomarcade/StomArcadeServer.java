@@ -170,7 +170,7 @@ public final class StomArcadeServer {
         serverManager.start();
 
         LOGGER.info("Server started on {}:{}", serverAddress, serverPort);
-        serverManager.getServerSettings().setJoinState(KardiaServer.JoinState.JOINABLE);
+        serverManager.settings().setJoinState(KardiaServer.JoinState.JOINABLE);
 
         Scanner scanner = new Scanner(System.in);
 

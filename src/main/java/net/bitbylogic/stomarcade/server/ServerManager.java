@@ -60,7 +60,9 @@ public class ServerManager {
 
                 KardiaServer kardiaServer = gson.fromJson(value, KardiaServer.class);
 
-                KardiaServer modifiedServer = new KardiaServer(kardiaServer.kardiaId(),
+                KardiaServer modifiedServer = new KardiaServer(
+                        kardiaServer.dockerId(),
+                        kardiaServer.kardiaId(),
                         kardiaServer.instance(),
                         kardiaServer.ids(),
                         kardiaServer.serverType(),
@@ -180,8 +182,12 @@ public class ServerManager {
         }).toCompletableFuture();
     }
 
-    public ServerSettings getServerSettings() {
+    public ServerSettings settings() {
         return serverSettings;
+    }
+
+    public ServerEnvironment environment() {
+        return serverEnvironment;
     }
 
     public enum ServerType {
