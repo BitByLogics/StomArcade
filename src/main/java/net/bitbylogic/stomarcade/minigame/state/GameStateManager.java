@@ -114,6 +114,10 @@ public class GameStateManager {
         stateElapsedMillis = Math.max(0, stateElapsedMillis - duration.toMillis());
     }
 
+    public void resetElapsedTime() {
+        stateElapsedMillis = 0;
+    }
+
     public void skip() {
         advanceOrEnd();
     }
