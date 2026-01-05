@@ -10,4 +10,6 @@ public interface Feature {
 
     void onDisable();
 
+    void reloadConfig();
+
 }

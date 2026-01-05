@@ -1,6 +1,7 @@
 package net.bitbylogic.stomarcade.command;
 
 import net.bitbylogic.stomarcade.StomArcadeServer;
+import net.bitbylogic.stomarcade.feature.Feature;
 import net.bitbylogic.stomarcade.feature.ServerFeature;
 import net.bitbylogic.stomarcade.permission.command.PermissionedCommand;
 import net.bitbylogic.stomarcade.util.message.MessageUtil;
@@ -15,10 +16,11 @@ public class FeatureCommand extends PermissionedCommand {
 
         setPermission("stomarcade.feature");
 
-        setDefaultExecutor((sender, _) -> sender.sendMessage(MessageUtil.primary("Usage: /feature <disable/enable> <feature>")));
+        setDefaultExecutor((sender, _) -> sender.sendMessage(MessageUtil.primary("Usage: /feature <disable/enable/reload> <feature>")));
 
         ArgumentLiteral enable = ArgumentType.Literal("enable");
         ArgumentLiteral disable = ArgumentType.Literal("disable");
+        ArgumentLiteral reload = ArgumentType.Literal("reload");
 
         ArgumentEnum<ServerFeature> feature = ArgumentType.Enum("feature", ServerFeature.class);
 
@@ -45,6 +47,20 @@ public class FeatureCommand extends PermissionedCommand {
             StomArcadeServer.features().disableFeature(serverFeature);
             sender.sendMessage(MessageUtil.success("Disabled feature <success_highlight>" + serverFeature.name()));
         }, disable, feature);
+
+        addSyntax((sender, context) -> {
+            ServerFeature serverFeature = context.get(feature);
+
+            if (!StomArcadeServer.features().isFeatureEnabled(serverFeature)) {
+                sender.sendMessage(MessageUtil.error("Feature <error_highlight>" + serverFeature.name() + " <error_secondary>is not enabled!"));
+                return;
+            }
+
+            Feature loadedFeature = StomArcadeServer.features().enabledFeatures().get(serverFeature.feature().id());
+
+            loadedFeature.reloadConfig();
+            sender.sendMessage(MessageUtil.success("Reloaded feature <success_highlight>" + serverFeature.name()));
+        }, reload, feature);
     }
 
 }

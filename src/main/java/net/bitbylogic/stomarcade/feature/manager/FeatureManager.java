@@ -33,6 +33,10 @@ public class FeatureManager {
         feature.onEnable();
     }
 
+    public Feature getFeature(@NotNull String id) {
+        return enabledFeatures.get(id);
+    }
+
     public void disableFeature(@NotNull ServerFeature... features) {
         for (ServerFeature feature : features) {
             disableFeature(feature.feature());
