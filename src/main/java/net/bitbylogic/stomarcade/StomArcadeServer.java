@@ -5,6 +5,7 @@ import net.bitbylogic.kardia.server.KardiaServer;
 import net.bitbylogic.orm.BormAPI;
 import net.bitbylogic.rps.RedisManager;
 import net.bitbylogic.rps.client.RedisClient;
+import net.bitbylogic.stomarcade.block.SkullBlockHandler;
 import net.bitbylogic.stomarcade.command.*;
 import net.bitbylogic.stomarcade.feature.ServerFeature;
 import net.bitbylogic.stomarcade.feature.manager.FeatureManager;
@@ -34,6 +35,8 @@ import net.minestom.server.event.player.PlayerLoadedEvent;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.SharedInstance;
+import net.minestom.server.instance.block.Block;
+import net.minestom.server.instance.block.BlockManager;
 import org.redisson.client.codec.StringCodec;
 import org.redisson.config.Config;
 
@@ -118,6 +121,11 @@ public final class StomArcadeServer {
                 new StaffChatCommand(),
                 new FeatureCommand()
         );
+
+        BlockManager blockManager = MinecraftServer.getBlockManager();
+
+        SkullBlockHandler handler = new SkullBlockHandler();
+        blockManager.registerHandler(handler.getKey(), () -> handler);
 
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
