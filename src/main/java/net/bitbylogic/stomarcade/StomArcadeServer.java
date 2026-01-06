@@ -101,14 +101,9 @@ public final class StomArcadeServer {
         }
 
         featureManager.enableFeature(
-                ServerFeature.BLOCK_DROP,
-                ServerFeature.ITEM_PICKUP,
-                ServerFeature.ITEM_DROP,
                 ServerFeature.TABLIST,
                 ServerFeature.CHAT,
-                ServerFeature.SERVER_LIST,
-                ServerFeature.MODERN_VANILLA,
-                ServerFeature.SPAWN
+                ServerFeature.SERVER_LIST
         );
 
         MinecraftServer.getCommandManager().register(
