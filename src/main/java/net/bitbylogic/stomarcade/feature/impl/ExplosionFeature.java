@@ -16,7 +16,7 @@ public class ExplosionFeature extends MinestomPVPFeature {
         super.onEnable();
 
         for (Instance instance : MinecraftServer.getInstanceManager().getInstances()) {
-            instance.setExplosionSupplier(getFeatureSet().get(FeatureType.EXPLOSION).getExplosionSupplier());
+            instance.setExplosionSupplier(featureSet().get(FeatureType.EXPLOSION).getExplosionSupplier());
         }
     }
 

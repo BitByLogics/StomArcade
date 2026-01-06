@@ -38,7 +38,7 @@ public class MinestomPVPFeature extends SimpleFeature {
         MinecraftServer.getGlobalEventHandler().removeChild(node);
     }
 
-    protected CombatFeatureSet getFeatureSet() {
+    public CombatFeatureSet featureSet() {
         return featureSet;
     }
 

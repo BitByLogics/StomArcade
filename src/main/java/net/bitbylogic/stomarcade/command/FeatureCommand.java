@@ -1,11 +1,13 @@
 package net.bitbylogic.stomarcade.command;
 
+import io.github.togar2.pvp.feature.config.DefinedFeature;
+import io.github.togar2.pvp.feature.food.VanillaFoodFeature;
 import net.bitbylogic.stomarcade.StomArcadeServer;
 import net.bitbylogic.stomarcade.feature.Feature;
 import net.bitbylogic.stomarcade.feature.ServerFeature;
+import net.bitbylogic.stomarcade.feature.impl.MinestomPVPFeature;
 import net.bitbylogic.stomarcade.permission.command.PermissionedCommand;
 import net.bitbylogic.stomarcade.util.message.MessageUtil;
-import net.bitbylogic.utils.StringUtil;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.minestom.server.command.builder.arguments.ArgumentEnum;
 import net.minestom.server.command.builder.arguments.ArgumentLiteral;
@@ -36,6 +38,21 @@ public class FeatureCommand extends PermissionedCommand {
             if (StomArcadeServer.features().isFeatureEnabled(serverFeature)) {
                 sender.sendMessage(MessageUtil.error("Feature <error_highlight>" + serverFeature.name() + " <error_secondary>is already enabled!"));
                 return;
+            }
+
+            if (serverFeature.feature() instanceof MinestomPVPFeature pvpFeatureToEnable) {
+                for (Feature enabledFeature : StomArcadeServer.features().enabledFeatures().values()) {
+                    if (!(enabledFeature instanceof MinestomPVPFeature pvpFeature) || pvpFeatureToEnable.featureSet().listTypes().stream()
+                            .noneMatch(featureType -> pvpFeature.featureSet().listTypes().contains(featureType))) {
+                        continue;
+                    }
+
+                    sender.sendMessage(MessageUtil.error("Failed to enable feature <error_highlight><feature> <error_secondary>due to it conflicting with <error_highlight><enabled_feature><error_secondary>",
+                            Placeholder.unparsed("feature", serverFeature.feature().id()),
+                            Placeholder.unparsed("enabled_feature", enabledFeature.id())
+                    ));
+                    return;
+                }
             }
 
             StomArcadeServer.features().enableFeature(serverFeature);
