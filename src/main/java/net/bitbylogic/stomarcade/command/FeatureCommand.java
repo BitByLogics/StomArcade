@@ -5,9 +5,14 @@ import net.bitbylogic.stomarcade.feature.Feature;
 import net.bitbylogic.stomarcade.feature.ServerFeature;
 import net.bitbylogic.stomarcade.permission.command.PermissionedCommand;
 import net.bitbylogic.stomarcade.util.message.MessageUtil;
+import net.bitbylogic.utils.StringUtil;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.minestom.server.command.builder.arguments.ArgumentEnum;
 import net.minestom.server.command.builder.arguments.ArgumentLiteral;
 import net.minestom.server.command.builder.arguments.ArgumentType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeatureCommand extends PermissionedCommand {
 
@@ -20,6 +25,7 @@ public class FeatureCommand extends PermissionedCommand {
 
         ArgumentLiteral enable = ArgumentType.Literal("enable");
         ArgumentLiteral disable = ArgumentType.Literal("disable");
+        ArgumentLiteral list = ArgumentType.Literal("list");
         ArgumentLiteral reload = ArgumentType.Literal("reload");
 
         ArgumentEnum<ServerFeature> feature = ArgumentType.Enum("feature", ServerFeature.class);
@@ -47,6 +53,13 @@ public class FeatureCommand extends PermissionedCommand {
             StomArcadeServer.features().disableFeature(serverFeature);
             sender.sendMessage(MessageUtil.success("Disabled feature <success_highlight>" + serverFeature.name()));
         }, disable, feature);
+
+        addSyntax((sender, _) -> {
+            List<String> enabledFeatures = new ArrayList<>();
+            StomArcadeServer.features().enabledFeatures().values().forEach(eFeature -> enabledFeatures.add(eFeature.id()));
+
+            sender.sendMessage(MessageUtil.primary("Enabled Features: <highlight><features>", Placeholder.parsed("features", String.join("<separator>, <highlight>", enabledFeatures))));
+        }, list);
 
         addSyntax((sender, context) -> {
             ServerFeature serverFeature = context.get(feature);
