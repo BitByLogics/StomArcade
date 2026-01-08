@@ -8,6 +8,7 @@ import net.bitbylogic.rps.client.RedisClient;
 import net.bitbylogic.stomarcade.block.SkullBlockHandler;
 import net.bitbylogic.stomarcade.command.*;
 import net.bitbylogic.stomarcade.feature.ServerFeature;
+import net.bitbylogic.stomarcade.feature.impl.BlockBreakFeature;
 import net.bitbylogic.stomarcade.feature.manager.FeatureManager;
 import net.bitbylogic.stomarcade.loot.LootTableManager;
 import net.bitbylogic.stomarcade.message.command.MessagesCommand;
@@ -31,6 +32,7 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.ConsoleSender;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
+import net.minestom.server.event.player.PlayerBlockBreakEvent;
 import net.minestom.server.event.player.PlayerLoadedEvent;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
@@ -88,21 +90,6 @@ public final class StomArcadeServer {
 
         String features = System.getenv("FEATURES");
 
-        if(features != null && !features.isBlank()) {
-            String[] featureNames = features.split(",");
-            LOGGER.info("Enabling features: {}", features);
-
-            for (String featureName : featureNames) {
-                ServerFeature feature = EnumUtil.getValue(ServerFeature.class, featureName, null);
-
-                if (feature == null) {
-                    continue;
-                }
-
-                featureManager.enableFeature(feature);
-            }
-        }
-
         featureManager.enableFeature(
                 ServerFeature.TABLIST,
                 ServerFeature.CHAT,
@@ -154,13 +141,30 @@ public final class StomArcadeServer {
         MinecraftServer.getGlobalEventHandler()
                 .addListener(AsyncPlayerConfigurationEvent.class,
                         event -> event.setSpawningInstance(sharedInstance))
-                .addChild(permissionManager.node()).addListener(PlayerLoadedEvent.class, event -> {
+                .addChild(permissionManager.node())
+                .addChild(BlockBreakFeature.BREAK_DENY_NODE)
+                .addListener(PlayerLoadedEvent.class, event -> {
                     Player player = event.getPlayer();
 
                     permissionManager.registeredPermissions().forEach(permission -> PermissionUtil.set(player, permission, true));
 
                     player.refreshCommands();
                 });
+
+        if(features != null && !features.isBlank()) {
+            String[] featureNames = features.split(",");
+            LOGGER.info("Enabling features: {}", features);
+
+            for (String featureName : featureNames) {
+                ServerFeature feature = EnumUtil.getValue(ServerFeature.class, featureName, null);
+
+                if (feature == null) {
+                    continue;
+                }
+
+                featureManager.enableFeature(feature);
+            }
+        }
 
         String serverAddress = System.getenv().getOrDefault("SERVER_ADDRESS", "0.0.0.0");
         int serverPort = 25565;

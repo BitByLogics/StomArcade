@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public enum ServerFeature {
 
+    BLOCK_BREAK(new BlockBreakFeature()),
     BLOCK_DROP(new BlockDropFeature()),
     ITEM_PICKUP(new ItemPickupFeature()),
     ITEM_DROP(new ItemDropFeature(5, 1.2)),
