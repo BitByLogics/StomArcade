@@ -61,7 +61,7 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 tasks.withType<ShadowJar> {
-    archiveBaseName.set("StomArcade")
+    archiveFileName.set("StomArcade.jar")
     archiveClassifier.set("")
 
     manifest {
