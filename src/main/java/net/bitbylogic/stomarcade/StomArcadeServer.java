@@ -25,6 +25,7 @@ import net.bitbylogic.stomarcade.redis.PlayerMessageListener;
 import net.bitbylogic.stomarcade.redis.StaffMessageListener;
 import net.bitbylogic.stomarcade.server.ServerManager;
 import net.bitbylogic.stomarcade.util.PermissionUtil;
+import net.bitbylogic.stomarcade.util.ServerUtil;
 import net.bitbylogic.stomarcade.util.message.MessageUtil;
 import net.bitbylogic.utils.EnumUtil;
 import net.hollowcube.polar.PolarLoader;
@@ -148,6 +149,7 @@ public final class StomArcadeServer {
                 .addListener(PlayerLoadedEvent.class, event -> {
                     Player player = event.getPlayer();
 
+                    ServerUtil.preventCollision(player);
                     permissionManager.registeredPermissions().forEach(permission -> PermissionUtil.set(player, permission, true));
 
                     player.refreshCommands();
