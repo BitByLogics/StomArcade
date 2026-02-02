@@ -49,6 +49,34 @@ public class MannequinBuilder {
                 .collision(false);
     }
 
+    public ResolvableProfile profile() {
+        return profile;
+    }
+
+    public boolean immovable() {
+        return immovable;
+    }
+
+    public boolean noGravity() {
+        return noGravity;
+    }
+
+    public boolean customNameVisible() {
+        return customNameVisible;
+    }
+
+    public boolean collision() {
+        return collision;
+    }
+
+    public Component description() {
+        return description;
+    }
+
+    public double scale() {
+        return scale;
+    }
+
     public MannequinBuilder profile(@NotNull ResolvableProfile profile) {
         this.profile = profile;
         return this;

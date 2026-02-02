@@ -48,6 +48,50 @@ public class TextDisplayBuilder {
                 .billboard(AbstractDisplayMeta.BillboardConstraints.CENTER);
     }
 
+    public int lineWidth() {
+        return lineWidth;
+    }
+
+    public Component text() {
+        return text;
+    }
+
+    public int backgroundColor() {
+        return backgroundColor;
+    }
+
+    public int brightness() {
+        return brightness;
+    }
+
+    public byte textOpacity() {
+        return textOpacity;
+    }
+
+    public boolean shadow() {
+        return shadow;
+    }
+
+    public boolean seeThrough() {
+        return seeThrough;
+    }
+
+    public TextDisplayMeta.Alignment alignment() {
+        return alignment;
+    }
+
+    public AbstractDisplayMeta.BillboardConstraints billboard() {
+        return billboard;
+    }
+
+    public Vec scale() {
+        return scale;
+    }
+
+    public Point translation() {
+        return translation;
+    }
+
     public TextDisplayBuilder text(@NotNull Component text) {
         this.text = text;
         return this;
